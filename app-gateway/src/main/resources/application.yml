@@ -1,0 +1,30 @@
+server:
+  port: 8888
+spring:
+  application:
+    name: gateway
+
+  cloud:
+    gateway:
+      routes:
+        - id: shoppingCartServiceRoute
+          predicates:
+            - Path=/shoppingcart/**
+          uri:  lb://shopping-cart-service
+        - id: productService
+          predicates:
+            - Path=/products/**
+          uri:  lb://products-service
+      
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:7777/eureka
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  security:
+    enabled: false
